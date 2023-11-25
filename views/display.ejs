@@ -1,0 +1,91 @@
+<%- include("partials/header.ejs") %>
+
+<script>
+    let userLatitude, userLongitude, nearestRegion, pm25Value, pm25json; // Declare variables at a higher scope
+    const PM25api = 'https://api.data.gov.sg/v1/environment/pm25';
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            userLatitude = position.coords.latitude;
+            userLongitude = position.coords.longitude;
+            console.log(`Latitude: ${userLatitude}, Longitude: ${userLongitude}`);
+
+            // Call fetchData here to make the API call after getting the user's location
+            fetchData();
+            document.getElementById('pm25Info').innerHTML = `Current latitude: ${userLatitude}, Current longitude: ${userLongitude}, Region: ${nearestRegion}, pm25Value: ${pm25Value}`;
+        });
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+    
+    function getNearestRegion(latitude, longitude) {
+        const regions = pm25json.region_metadata;
+        nearestRegion = regions[0];
+        let minDistance = calculateDistance(latitude, longitude, nearestRegion.label_location.latitude, nearestRegion.label_location.longitude);
+
+        // Loop through each region and update nearestRegion if a closer one is found
+        for (let i = 1; i < regions.length; i++) {
+            const distance = calculateDistance(latitude, longitude, regions[i].label_location.latitude, regions[i].label_location.longitude);
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestRegion = regions[i];
+            }
+        }
+
+        return nearestRegion;
+    }
+    
+    // Function to calculate distance using Haversine formula
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Earth radius in kilometers
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLon = (lon2 - lon1) * (Math.PI / 180);
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c; // Distance in kilometers
+        return distance;
+    }
+
+    function fetchData() {
+        // Make API call to get PM2.5 data
+        fetch(PM25api)
+            .then(response => response.json())
+            .then(data => {
+            pm25json = data; // Set the global pm25json variable
+            nearestRegion = getNearestRegion(userLatitude, userLongitude);
+            pm25Value = pm25json.items[0].readings.pm25_one_hourly[nearestRegion.name];
+
+                // Display the PM2.5 value
+                console.log('PM2.5 Value:', pm25Value);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+</script>
+
+<body>
+    <h1>DashBoardSG</h1>
+
+    <% if (selectedDash["PM25"]) { %>
+    <p>`PM2.5 is ${pm25Value}`</p>
+    <!-- Display latitude and longitude here if needed -->
+    <p id="pm25Info"></p>
+    <% } %>
+
+    <% if (selectedDash["PSI"]) { %>
+    <p>PSI is selected</p>
+    <% } %>
+
+    <% if (selectedDash["UVI"]) { %>
+    <p>UVI is selected</p>
+    <% } %>
+
+    <% if (selectedDash["Weather"]) { %>
+    <p>Weather is selected</p>
+    <% } %>
+</body>
+
+<%- include("partials/footer.ejs") %>
