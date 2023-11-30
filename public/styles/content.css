@@ -61,16 +61,6 @@ form {
   border-radius: 50%;
 }
 
-/* .about {
-  background-color: grey;
-  opacity: 0.5;
-  align-items: center;
-  flex-direction: column;
-  justify-content: stretch;
-  display: flex;
-  color: #ffffff; /* Set text color for better visibility */
-} */
-
 form {
   margin-top: 50px;
 }
@@ -115,6 +105,7 @@ textarea {
   transition: all 0.3s;
   font-weight: 700;
 }
+
 [type="submit"]:hover {
   background: #3586ff;
   font-size: 28px;

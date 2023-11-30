@@ -27,6 +27,7 @@ i {
   padding: 15px;
   border-radius: 15px; /* Rounded corners */
   background-color: #f0f0f0; /* Background color for the squares */
+  opacity: 0.95;
 }
 
 .grid-item strong {
@@ -211,7 +212,7 @@ footer {
   color: white;
 }
 
-footer .social_icon,
+/* footer .social_icon,
 footer .menu {
   position: relative;
   display: flex;
@@ -248,7 +249,8 @@ footer .menu li a {
 footer .menu li a:hover {
   opacity: 1;
   color: #fff;
-}
+} */
+
 p {
   color: white;
   text-align: center;
