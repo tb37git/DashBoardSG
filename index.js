@@ -74,7 +74,6 @@ async function fetchPsiData() {
       const nearestRegion = getNearestRegion(userLatitude, userLongitude, psiJson.region_metadata);
       psiValue = psiJson.items[0].readings.psi_twenty_four_hourly[nearestRegion.name];
       console.log('PSI Value:', psiValue);
-      console.log(nearestRegion.name);
     })
     .catch(error => console.error('Error fetching PSI data:', error));
   return psiValue;
@@ -126,12 +125,33 @@ app.post("/display", async (req, res) => {
   userLatitude = req.body["userLatitude"];
   userLongitude = req.body["userLongitude"];
 
-  if (req.body["PM25"]) { req.body["PM25"] = await fetchPM25Data() };
-  if (req.body["PSI"]) { req.body["PSI"] = await fetchPsiData() };
-  if (req.body["UVI"]) { req.body["UVI"] = await fetchUviData() };
-  if (req.body["Weather"]) { req.body["Weather"] = await fetchWeatherData() };
-
-  res.render("display.ejs", { selectedDash: req.body });
+  const result = {};
+  if (req.body["PM25"]) { result["PM25"] = {
+    title: "PM2.5",
+    value: await fetchPM25Data(),
+    unit: "µg/m3"
+    }
+  };
+  if (req.body["PSI"]) { result["PSI"] = {
+    title: "PSI",
+    value: await fetchPsiData(),
+    unit: "Index"
+    }
+  };
+  if (req.body["UVI"]) { result["UVI"] = {
+    title: "UVI",
+    value: await fetchUviData(),
+    unit: "Index"
+    }
+  };
+  if (req.body["Weather"]) { result["Weather"] = {
+    title: "Weather",
+    value: await fetchWeatherData(),
+    unit: ""
+    }
+  };
+  console.log(result);
+  res.render("display.ejs", { selectedDash: result });
 });
 
 app.listen(port, () => {

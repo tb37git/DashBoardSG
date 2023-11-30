@@ -3,11 +3,20 @@
 
 <h1>DashBoardSG</h1>
 <script>
-    console.log("This is from display.ejs!";
+    console.log(selectedDash);
 </script>
+<ul>
+    <% Object.keys(selectedDash).forEach(key => { %>
+      <li>
+        <strong><%= selectedDash[key].title %>:</strong>
+        <%= selectedDash[key].value %> <%= selectedDash[key].unit %>
+      </li>
+    <% }); %>
+</ul>
+
 <% if (selectedDash["PM25"]) { %>
     <p>
-        PM2.5 is <%= selectedDash["PM25"] %>
+        PM2.5 is <%= selectedDash["PM25"].value %>
     </p>
     <% } %>
     
