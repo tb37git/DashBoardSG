@@ -5,38 +5,14 @@
 <script>
     console.log(selectedDash);
 </script>
-<ul>
+<ul class="grid-container">
     <% Object.keys(selectedDash).forEach(key => { %>
-      <li>
-        <strong><%= selectedDash[key].title %>:</strong>
-        <%= selectedDash[key].value %> <%= selectedDash[key].unit %>
+      <li class="grid-item">
+        <strong><%= selectedDash[key].title %></strong>
+        <div class="value"><%= selectedDash[key].value %></div>
+        <div class="unit"><%= selectedDash[key].unit %></div>
       </li>
-    <% }); %>
+    <% }) %>
 </ul>
-
-<% if (selectedDash["PM25"]) { %>
-    <p>
-        PM2.5 is <%= selectedDash["PM25"].value %>
-    </p>
-    <% } %>
-    
-<% if (selectedDash["PSI"]) { %>
-    <p>
-        PSI is <%= selectedDash["PSI"] %>
-    </p>
-    <% } %>
-
-<% if (selectedDash["UVI"]) { %>
-    <p>
-        UVI is <%= selectedDash["UVI"] %>
-    </p>
-<% } %>
-
-<% if (selectedDash["Weather"]) { %>
-    <p>
-        Weather is <%= selectedDash["Weather"] %>
-    </p>
-<% } %>
-
 
 <%- include("partials/footer.ejs") %>

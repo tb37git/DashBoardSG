@@ -10,6 +10,40 @@
 i {
   margin-right: 10px;
 }
+
+#dash4 {
+  margin-bottom: 50px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 20px; /* Increased gap between items for better spacing */
+  list-style: none; /* Remove default list styling */
+}
+
+.grid-item {
+  text-align: center;
+  padding: 15px;
+  border-radius: 15px; /* Rounded corners */
+  background-color: #f0f0f0; /* Background color for the squares */
+}
+
+.grid-item strong {
+  font-size: 1.5em; /* Large font size for headings */
+  color: darkblue;
+}
+
+.grid-item .value {
+  font-size: 3em; /* Larger font size for values */
+  color: blue;
+}
+
+.grid-item .unit {
+  font-size: 0.8em; /* Smaller font size for units */
+  color: darkgray; /* Adjust color for units */
+}
+
 /*----------bootstrap-navbar-css------------*/
 .navbar-logo {
   padding: 15px;
