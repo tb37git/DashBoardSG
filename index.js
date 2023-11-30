@@ -60,6 +60,7 @@ async function fetchPM25Data() {
       const pm25Json = data;           
       const nearestRegion = getNearestRegion(userLatitude, userLongitude, pm25Json.region_metadata);
       pm25Value = pm25Json.items[0].readings.pm25_one_hourly[nearestRegion.name];
+      console.log(pm25Json);
       console.log('PM2.5 Value:', pm25Value);
     })
     .catch(error => console.error('Error fetching PM25 data:', error));
