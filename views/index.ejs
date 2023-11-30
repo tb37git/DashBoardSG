@@ -2,34 +2,57 @@
 
 <%- include("partials/header.ejs") %>
 
-<body>
-  
-  <img class="logo" src="http://cdn.onlinewebfonts.com/svg/img_81173.svg" alt="Dashboard icon">
+<script>
+  let userLatitude, userLongitude;
+  let browserGPSallowed;
+
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+          userLatitude = position.coords.latitude;
+          userLongitude = position.coords.longitude;
+          document.querySelector("#userLatitude").value = userLatitude;
+          document.querySelector("#userLongitude").value = userLongitude;
+          document.querySelector("#browserWarning").innerHTML = "Browser allows GPS!";
+          console.log(`Inside Latitude: ${userLatitude}, Longitude: ${userLongitude}`);
+        });
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+        document.querySelector("#browserWarning").innerHTML = "Please enable location on this browser";
+        browserGPSallowed = false;
+      }
+      
+</script>
+
+<div>
+  <img class="logo" src="https://cdn.onlinewebfonts.com/svg/img_81173.svg" alt="Dashboard icon">
   <h1>DashBoardSG</h1>
+</div>
+<div>
   <h2>What's important to you?</h2>
-  
-  <form action="/display" method="post">
+    
+  <form id="myForm" action="/display" method="post">
 
     <label for="dash1">
-      <input type="checkbox" id="dash1" name="PM25" value="Item 1"> PM2.5
+      <input type="checkbox" id="dash1" name="PM25" value= "pm25Value" > PM2.5
     </label>
 
     <label for="dash2">
-      <input type="checkbox" id="dash2" name="PSI" value="Item 2"> PSI
+      <input type="checkbox" id="dash2" name="PSI" value="psiValue"> PSI
     </label>
 
     <label for="dash3">
-      <input type="checkbox" id="dash3" name="UVI" value="Item 3"> UVI
+      <input type="checkbox" id="dash3" name="UVI" value="uviValue"> UVI
     </label>
 
     <label for="dash4">
-      <input type="checkbox" id="dash4" name="Weather" value="Item 4"> Weather
+      <input type="checkbox" id="dash4" name="Weather" value="weatherValue"> Weather
     </label>
-
     <input type="submit" value="Display">
+    <input type="hidden" id="userLatitude" name="userLatitude" value="latitude">
+    <input type="hidden" id="userLongitude" name="userLongitude" value="longitude">
 
   </form>
+</div>
+  <h3 id="browserWarning"></h3>
 
-</body>
-    
-  <%- include("partials/footer.ejs") %>
+<%- include("partials/footer.ejs") %>
