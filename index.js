@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import fetch from "node-fetch";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const currentDateAndTime = new Date();
 
 // Get date and time components
