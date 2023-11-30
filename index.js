@@ -62,7 +62,8 @@ async function fetchPM25Data() {
       pm25Value = pm25Json.items[0].readings.pm25_one_hourly[nearestRegion.name];
       console.log('PM2.5 Value:', pm25Value);
     })
-  return pm25Value;
+    .catch(error => console.error('Error fetching PM25 data:', error));
+    return pm25Value;
 }
 
 async function fetchPsiData() {
@@ -71,8 +72,9 @@ async function fetchPsiData() {
     .then(data => {
       const psiJson = data; // Set the global psiJson variable
       const nearestRegion = getNearestRegion(userLatitude, userLongitude, psiJson.region_metadata);
-      psiValue = psiJson.items[0].readings.psi_twenty_four_hourly[nearestRegion];
+      psiValue = psiJson.items[0].readings.psi_twenty_four_hourly[nearestRegion.name];
       console.log('PSI Value:', psiValue);
+      console.log(nearestRegion.name);
     })
     .catch(error => console.error('Error fetching PSI data:', error));
   return psiValue;
@@ -119,15 +121,15 @@ app.get("/contact", (req, res) => {
   res.render("contact.ejs");
 });
 
-app.post("/display", (req, res) => {
+app.post("/display", async (req, res) => {
   console.log(req.body);
-  // userLatitude = req.body["userLatitude"];
-  // userLongitude = req.body["userLongitude"];
+  userLatitude = req.body["userLatitude"];
+  userLongitude = req.body["userLongitude"];
 
-  // if (req.body["PM25"]) { req.body["PM25"] = fetchPM25Data() };
-  // if (req.body["PSI"]) { req.body["PSI"] = fetchPsiData() };
-  // if (req.body["UVI"]) { req.body["UVI"] = fetchUviData() };
-  // if (req.body["Weather"]) { req.body["Weather"] = fetchWeatherData() };
+  if (req.body["PM25"]) { req.body["PM25"] = await fetchPM25Data() };
+  if (req.body["PSI"]) { req.body["PSI"] = await fetchPsiData() };
+  if (req.body["UVI"]) { req.body["UVI"] = await fetchUviData() };
+  if (req.body["Weather"]) { req.body["Weather"] = await fetchWeatherData() };
 
   res.render("display.ejs", { selectedDash: req.body });
 });
