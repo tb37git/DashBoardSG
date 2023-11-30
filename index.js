@@ -63,7 +63,7 @@ async function fetchPM25Data() {
       console.log('PM2.5 Value:', pm25Value);
     })
     .catch(error => console.error('Error fetching PM25 data:', error));
-    return pm25Value;
+  return pm25Value;
 }
 
 async function fetchPsiData() {
@@ -126,12 +126,13 @@ app.post("/display", async (req, res) => {
   userLatitude = req.body["userLatitude"];
   userLongitude = req.body["userLongitude"];
 
-  if (req.body["PM25"]) { req.body["PM25"] = await fetchPM25Data() };
-  if (req.body["PSI"]) { req.body["PSI"] = await fetchPsiData() };
-  if (req.body["UVI"]) { req.body["UVI"] = await fetchUviData() };
-  if (req.body["Weather"]) { req.body["Weather"] = await fetchWeatherData() };
+  const result = {}
+  if (req.body["PM25"]) { result["PM25"] = await fetchPM25Data() };
+  if (req.body["PSI"]) { result["PSI"] = await fetchPsiData() };
+  if (req.body["UVI"]) { result["UVI"] = await fetchUviData() };
+  if (req.body["Weather"]) { result["Weather"] = await fetchWeatherData() };
 
-  res.render("display.ejs", { selectedDash: req.body });
+  res.render("display.ejs", { selectedDash: result });
 });
 
 app.listen(port, () => {
