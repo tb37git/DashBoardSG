@@ -3,13 +3,13 @@ import bodyParser from "body-parser";
 
 const app = express();
 const port = process.env.PORT || 3000;
-const currentDateAndTime = new Date();
-const formattedDateTime = currentDateAndTime.toISOString().slice(0, 19);
+let currentDateAndTime = new Date();
+let formattedDateTime = new Date().toISOString().slice(0, 19);
 
-const pm25api = `https://api.data.gov.sg/v1/environment/pm25?date_time=${formattedDateTime}`;
-const psiApi = `https://api.data.gov.sg/v1/environment/psi?date_time=${formattedDateTime}`;
-const uviApi = `https://api.data.gov.sg/v1/environment/uv-index?date_time=${formattedDateTime}`;
-const weatherApi = `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date_time=${formattedDateTime}`;
+let pm25api = `https://api.data.gov.sg/v1/environment/pm25?date_time=${formattedDateTime}`;
+let psiApi = `https://api.data.gov.sg/v1/environment/psi?date_time=${formattedDateTime}`;
+let uviApi = `https://api.data.gov.sg/v1/environment/uv-index?date_time=${formattedDateTime}`;
+let weatherApi = `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date_time=${formattedDateTime}`;
 
 let userLatitude = 1.316576119456869;
 let userLongitude = 103.83240698999445;
