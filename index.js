@@ -4,19 +4,12 @@ import bodyParser from "body-parser";
 const app = express();
 const port = process.env.PORT || 3000;
 const currentDateAndTime = new Date();
+const formattedDateTime = currentDateAndTime.toISOString().slice(0, 19);
 
-// Get date and time components
-const year = currentDateAndTime.getFullYear();
-const month = currentDateAndTime.getMonth() + 1; // Note: Month is zero-based, so we add 1
-const day = currentDateAndTime.getDate();
-const hours = currentDateAndTime.getHours();
-const minutes = currentDateAndTime.getMinutes();
-const seconds = currentDateAndTime.getSeconds();
-
-const pm25api = `https://api.data.gov.sg/v1/environment/pm25?date_time=${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-const psiApi = `https://api.data.gov.sg/v1/environment/psi?date_time=${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-const uviApi = `https://api.data.gov.sg/v1/environment/uv-index?date_time=${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-const weatherApi = `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date_time=${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+const pm25api = `https://api.data.gov.sg/v1/environment/pm25?date_time=${formattedDateTime}`;
+const psiApi = `https://api.data.gov.sg/v1/environment/psi?date_time=${formattedDateTime}`;
+const uviApi = `https://api.data.gov.sg/v1/environment/uv-index?date_time=${formattedDateTime}`;
+const weatherApi = `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date_time=${formattedDateTime}`;
 
 let userLatitude = 1.316576119456869;
 let userLongitude = 103.83240698999445;
