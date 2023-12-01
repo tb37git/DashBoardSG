@@ -3,13 +3,6 @@ import bodyParser from "body-parser";
 
 const app = express();
 const port = process.env.PORT || 3000;
-let currentDateAndTime = new Date();
-let formattedDateTime = new Date().toISOString().slice(0, 19);
-
-let pm25api = `https://api.data.gov.sg/v1/environment/pm25?date_time=${formattedDateTime}`;
-let psiApi = `https://api.data.gov.sg/v1/environment/psi?date_time=${formattedDateTime}`;
-let uviApi = `https://api.data.gov.sg/v1/environment/uv-index?date_time=${formattedDateTime}`;
-let weatherApi = `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date_time=${formattedDateTime}`;
 
 let userLatitude = 1.316576119456869;
 let userLongitude = 103.83240698999445;
@@ -46,13 +39,15 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 }
 
 async function fetchPM25Data() {
+  const DateTime = new Date().toISOString().slice(0, 19)+"Z";
+  const pm25api = `https://api.data.gov.sg/v1/environment/pm25?date_time=${DateTime}`;
+  let pm25Value;
   await fetch(pm25api)
     .then(response => response.json())
     .then(data => {
-      const pm25Json = data;           
       console.log(pm25api);
-      const nearestRegion = getNearestRegion(userLatitude, userLongitude, pm25Json.region_metadata);
-      pm25Value = pm25Json.items[0].readings.pm25_one_hourly[nearestRegion.name];
+      const nearestRegion = getNearestRegion(userLatitude, userLongitude, data.region_metadata);
+      pm25Value = data.items[0].readings.pm25_one_hourly[nearestRegion.name];
       console.log(nearestRegion);
     })
     .catch(error => console.error('Error fetching PM25 data:', error));
@@ -60,35 +55,41 @@ async function fetchPM25Data() {
 }
 
 async function fetchPsiData() {
-  await fetch(psiApi)
+  const DateTime = new Date().toISOString().slice(0, 19)+"Z";
+  const psiApi = `https://api.data.gov.sg/v1/environment/psi?date_time=${DateTime}`;
+  let psiValue;
+    await fetch(psiApi)
     .then(response => response.json())
     .then(data => {
-      const psiJson = data; // Set the global psiJson variable
-      const nearestRegion = getNearestRegion(userLatitude, userLongitude, psiJson.region_metadata);
-      psiValue = psiJson.items[0].readings.psi_twenty_four_hourly[nearestRegion.name];
+      const nearestRegion = getNearestRegion(userLatitude, userLongitude, data.region_metadata);
+      psiValue = data.items[0].readings.psi_twenty_four_hourly[nearestRegion.name];
     })
     .catch(error => console.error('Error fetching PSI data:', error));
   return psiValue;
 }
 
 async function fetchUviData() {
-  await fetch(uviApi)
+  const DateTime = new Date().toISOString().slice(0, 19)+"Z";
+  const uviApi = `https://api.data.gov.sg/v1/environment/uv-index?date_time=${DateTime}`;
+  let uviValue;
+    await fetch(uviApi)
     .then(response => response.json())
     .then(data => {
-      const uviJson = data; // Set the global uviJson variable
-      uviValue = uviJson.items[0].index[0].value;
+      uviValue = data.items[0].index[0].value;
     })
     .catch(error => console.error('Error fetching UVI data:', error));
   return uviValue;
 }
 
 async function fetchWeatherData() {
-  await fetch(weatherApi)
+  const DateTime = new Date().toISOString().slice(0, 19)+"Z";
+  const weatherApi = `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date_time=${DateTime}`;
+  let weatherValue;
+    await fetch(weatherApi)
     .then(response => response.json())
     .then(data => {
-      const weatherJson = data; // Set the global uviJson variable
-      const nearestArea = getNearestRegion(userLatitude, userLongitude, weatherJson.area_metadata);
-      weatherValue = weatherJson.items[0].forecasts.find(area => area.area === nearestArea.name).forecast;
+      const nearestArea = getNearestRegion(userLatitude, userLongitude, data.area_metadata);
+      weatherValue = data.items[0].forecasts.find(area => area.area === nearestArea.name).forecast;
     })
     .catch(error => console.error('Error fetching Weather data:', error));
   return weatherValue;
