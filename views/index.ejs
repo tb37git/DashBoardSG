@@ -4,22 +4,20 @@
 
 <script>
   let userLatitude, userLongitude;
-  let browserGPSallowed;
 
   if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-          userLatitude = position.coords.latitude;
-          userLongitude = position.coords.longitude;
-          document.querySelector("#userLatitude").value = userLatitude;
-          document.querySelector("#userLongitude").value = userLongitude;
-          // document.querySelector("#browserWarning").innerHTML = "Browser allows GPS!";
-          console.log(`Inside Latitude: ${userLatitude}, Longitude: ${userLongitude}`);
-        });
-      } else {
-        console.log("Geolocation is not supported by this browser.");
-        document.querySelector("#browserWarning").innerHTML = "Please enable location on this browser";
-        browserGPSallowed = false;
-      }
+    navigator.geolocation.getCurrentPosition(function(position) {
+      userLatitude = position.coords.latitude;
+      userLongitude = position.coords.longitude;
+      document.querySelector("#userLatitude").value = userLatitude;
+      document.querySelector("#userLongitude").value = userLongitude;
+      // document.querySelector("#browserWarning").innerHTML = "Browser allows GPS!";
+      // console.log(`Inside Latitude: ${userLatitude}, Longitude: ${userLongitude}`);
+    });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+      document.querySelector("#browserWarning").innerHTML = "Please enable location on this browser";
+    }
       
 </script>
 

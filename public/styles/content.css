@@ -4,7 +4,7 @@ body {
 }
 
 body {
-  background: rgba(0, 0, 0, 0.1) url("https://wallpaperaccess.com/full/328442.jpg") center/cover fixed;
+  background: url("https://wallpaperaccess.com/full/328442.jpg") center/cover fixed;
   filter: brightness(100%); /* Adjust the percentage to control the dimness */
   height: 100vh;
   margin: 0;
