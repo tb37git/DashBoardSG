@@ -1,15 +1,17 @@
 <%- include("partials/header.ejs") %>
 
-<img class="logo" src="https://cdn.onlinewebfonts.com/svg/img_81173.svg" alt="Dashboard icon">
-<h1>DashBoardSG</h1>
-<ul class="grid-container">
-    <% Object.keys(selectedDash).forEach(key => { %>
-      <li class="grid-item">
-        <strong><%= selectedDash[key].title %></strong>
-        <div class="value"><%= selectedDash[key].value %></div>
-        <div class="unit"><%= selectedDash[key].unit %></div>
-      </li>
-    <% }) %>
-</ul>
+<div class="titleBlock">
+  <img class="logo" src="https://cdn.onlinewebfonts.com/svg/img_81173.svg" alt="Dashboard icon">
+  <h1>DashBoardSG</h1>
+</div>
 
+<div class="row">
+  <% Object.keys(selectedDash).forEach(key => { %>
+    <div class="card col-md-auto">
+      <strong><%= selectedDash[key].title %></strong>
+      <div class="value"><%= selectedDash[key].value %></div>
+      <div class="unit"><%= selectedDash[key].unit %></div>
+    </div>
+  <% }) %>
+</div>
 <%- include("partials/footer.ejs") %>

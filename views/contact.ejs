@@ -1,11 +1,15 @@
 <%- include("partials/header.ejs") %>
 
-<h1>Contact Me</h1>
+<div class="titleBlock">
+  <img class="logo" src="https://cdn.onlinewebfonts.com/svg/img_81173.svg" alt="Dashboard icon">
+  <h1>Contact Me</h1>
+</div>
 <form>
   <input name="name" type="text" class="feedback-input" placeholder="Name" />
   <input name="email" type="text" class="feedback-input" placeholder="Email" />
   <textarea name="text" class="feedback-input" placeholder="Comment"></textarea>
-  <input type="submit" value="SUBMIT" />
+  <br>
+  <button class="btn btn-primary btn-lg" type="submit">Submit</button>
 </form>
 
 <%- include("partials/footer.ejs") %>
