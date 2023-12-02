@@ -3,53 +3,40 @@ body {
   height: 100%;
 } */
 
-body {
-  background: url("https://wallpaperaccess.com/full/328442.jpg") center/cover fixed;
-  height: 100vh;
-  margin: 0;
-  padding: 20px;
-  align-items: center;
-  color: #ffffff; /* Set text color for better visibility */
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
-}
-
-main {
-  margin: 0px;
-  padding: 20px;
-  align-items: center;
-}
-
 header{
   flex: 0 0 auto;
   background-color: blue;
   margin-bottom: 1.5rem; 
 }
-
-h1 {
+main {
+  margin 0;
+  padding 0;
+  position: relative;
   text-align: center;
+  flex: 0 0 auto;
 }
-
+body {
+  height: 100%;
+  background: url("https://wallpaperaccess.com/full/328442.jpg") center/cover fixed;
+  margin: 0 10;
+  align-items: center;
+  color: #ffffff; /* Set text color for better visibility */
+  flex-direction: column;
+}
 p {
   color: white;
   font-size: medium;
-  text-align: center;
   margin-top: 15px;
   margin-bottom: 10px;
 }
-
-/* li {
-  color: white;
-} */
 
 img.logo {
   height: 50px;
 }
 
 .titleBlock {
+  margin-top: 3em;
   padding: 1em;
-  align-items: center;
 }
 
 .formBlock {

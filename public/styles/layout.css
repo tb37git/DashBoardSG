@@ -11,21 +11,22 @@
 }
 .card {
   text-align: center;
-  padding: 15px;
-  margin: 15px;
+  padding: 10px;
+  margin: 10px;
   border-radius: 15px; /* Rounded corners */
   background-color: #f0f0f0; /* Background color for the squares */
   opacity: 0.9;
+  display: inline;
 }
 .card strong {
   font-size: 1.5em; /* Large font size for headings */
   color: darkblue;
 }
-.card.value {
+.card .value {
   font-size: 3em; /* Larger font size for values */
   color: blue;
 }
-.card.unit {
+.card .unit {
   font-size: 0.8em; /* Smaller font size for units */
   color: darkgray; /* Adjust color for units */
 }
