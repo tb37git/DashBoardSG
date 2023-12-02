@@ -1,83 +1,69 @@
-/* html,
-body {
+html {
   height: 100%;
-} */
-
-header{
-  flex: 0 0 auto;
-  background-color: blue;
-  margin-bottom: 1.5rem;
+  font-size: 12px;
 }
-main {
+header {
+  /* flex: 0 0 auto; */
+  background-color: blue;
+  margin-bottom: 2rem;
+}
+body {
   background: url("https://wallpaperaccess.com/full/328442.jpg") center/cover fixed;
   /* filter: brightness(50%); */
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
   align-items: center;
   text-align: center;
-}
-body {
-  margin: 0;
-  align-items: center;
   color: white; /* Set text color for better visibility */
 }
 p {
-  font-size: medium;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
-
 img.logo {
-  height: 50px;
+  height: 4rem;
 }
-
 .titleBlock {
-  margin-top: 3em;
-  padding: 1em;
+  margin-top: 2rem;
+  padding: 1rem;
 }
-
 .formBlock {
-  padding: 1em;
+  padding: 1rem;
 }
-
 .custom-control-label {
-  padding: 0px 20px;
+  padding: 0 1.5rem;
 }
-
 .profile {
   height: 200px;
   width: 200px;
   object-fit: cover;
   border-radius: 50%;
 }
-
 .feedback-input {
-  color: white;
+  color: grey;
   font-weight: 500;
-  font-size: 18px;
-  border-radius: 5px;
-  line-height: 22px;
-  background-color: transparent;
+  font-size: 1.5rem;
+  border-radius: 1rem;
+  line-height: 2rem;
+  background-color: whitesmoke;
   border: 2px solid #3586ff;
   transition: all 0.3s;
-  padding: 13px;
-  margin-bottom: 15px;
-  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 75%;
   box-sizing: border-box;
   outline: 0;
 }
-
 .feedback-input:focus {
   border: 2px solid #3586ff;
 }
-
 textarea {
-  height: 150px;
+  height: 12rem;
   line-height: 150%;
   resize: vertical;
 }

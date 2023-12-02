@@ -14,18 +14,21 @@
   padding: 10px;
   margin: 10px;
   border-radius: 15px; /* Rounded corners */
-  background-color: #f0f0f0; /* Background color for the squares */
-  opacity: 0.9;
-  display: inline;
-  min-width: 10rem;
-  max-width: 15rem;
+  background-color: whitesmoke; /* Background color for the squares */
+  opacity: 0.8;
+  /* display: inline; */
+  min-height: 6rem;
+  min-width: 8rem;
+  /* max-width: 12rem; */
 }
 .card strong {
-  font-size: 1.5em; /* Large font size for headings */
+  font-weight: bolder;
+  font-size: 1.4rem; /* Large font size for title */
   color: darkblue;
+  white-space: nowrap;
 }
 .card .value {
-  font-size: 3em; /* Larger font size for values */
+  font-size: 2.5em; /* Larger font size for values */
   color: blue;
 }
 .card .unit {
@@ -33,8 +36,8 @@
   color: darkgray; /* Adjust color for units */
 }
 footer {
-  min-height: 20px;
-  padding: 10px 30px;
+  min-height: 2rem;
+  padding: 0.5rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,7 +56,7 @@ footer .wave {
   bottom: 0px;
   left: 0;
   width: 100%;
-  height: 50px;
+  height: 4rem;
   background: url(https://i.ibb.co/rZt4Nhg/wave.png);
   background-size: 1000px 100px;
 }

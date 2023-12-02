@@ -18,40 +18,40 @@
       console.log("Geolocation is not supported by this browser.");
       document.querySelector("#browserWarning").innerHTML = "Please enable location on this browser";
     }
-      
 </script>
 
-<div class="titleBlock">
-  <img class="logo" src="https://cdn.onlinewebfonts.com/svg/img_81173.svg" alt="Dashboard icon">
-  <h1>DashBoardSG</h1>
-</div>
-<div class="formBlock custom-control custom-checkbox">
-  <h2>What's important to you?</h2>
-    
-  <form id="myForm" action="/display" method="post">
-    <div class="custom-control custom-checkbox">
-      <label class="custom-control-label" for="dash1">
-        <input type="checkbox" class="custom-control-input" id="dash1" name="PM25" value= "selected" checked> PM2.5
-      </label>
+<body>
+  <div class="titleBlock">
+    <img class="logo" src="https://cdn.onlinewebfonts.com/svg/img_81173.svg" alt="Dashboard icon">
+    <h1>DashBoardSG</h1>
+  </div>
+  <div class="formBlock custom-control custom-checkbox">
+    <h2>What's important to you?</h2>
+      
+    <form id="myForm" action="/display" method="post">
+      <div class="container custom-control custom-checkbox">
+        <label class="col custom-control-label" for="dash1">
+          <input type="checkbox" class="custom-control-input" id="dash1" name="PM25" value= "selected" checked> PM2.5
+        </label>
 
-      <label class="custom-control-label" for="dash2">
-        <input type="checkbox" class="custom-control-input" id="dash2" name="PSI" value="selected" checked> PSI
-      </label>
+        <label class="col custom-control-label" for="dash2">
+          <input type="checkbox" class="custom-control-input" id="dash2" name="PSI" value="selected" checked> PSI
+        </label>
 
-      <label class="custom-control-label" for="dash3">
-        <input type="checkbox" class="custom-control-input" id="dash3" name="UVI" value="selected" checked> UVI
-      </label>
+        <label class="col custom-control-label" for="dash3">
+          <input type="checkbox" class="custom-control-input" id="dash3" name="UVI" value="selected" checked> UVI
+        </label>
 
-      <label class="custom-control-label" for="dash4">
-        <input type="checkbox" class="custom-control-input" id="dash4" name="Weather" value="selected" checked> Weather
-      </label>
-    </div>
-    <br>
-    <button class="btn btn-primary btn-lg" type="submit">Display</button>
-    <input type="hidden" id="userLatitude" name="userLatitude" value="latitude">
-    <input type="hidden" id="userLongitude" name="userLongitude" value="longitude">
-  </form>
-</div>
-  <h3 id="browserWarning"></h3>
-
+        <label class="col custom-control-label" for="dash4">
+          <input type="checkbox" class="custom-control-input" id="dash4" name="Weather" value="selected" checked> Weather
+        </label>
+      </div>
+      <br>
+      <button class="btn btn-primary btn-lg" type="submit">Display</button>
+      <input type="hidden" id="userLatitude" name="userLatitude" value="latitude">
+      <input type="hidden" id="userLongitude" name="userLongitude" value="longitude">
+    </form>
+  </div>
+    <h3 id="browserWarning"></h3>
+</body>
 <%- include("partials/footer.ejs") %>
