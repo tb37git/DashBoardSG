@@ -21,6 +21,7 @@ main {
   text-align: center;
 }
 body {
+  filter: brightness(100%); /* Adjust the percentage for brightness */
   margin: 0 10;
   align-items: center;
   color: #ffffff; /* Set text color for better visibility */
