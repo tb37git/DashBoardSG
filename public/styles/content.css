@@ -9,11 +9,14 @@ header{
   margin-bottom: 1.5rem; 
 }
 main {
+  position: relative;
   margin 0;
   padding 0;
-  position: relative;
+  align-items: center;
   text-align: center;
-  flex: 0 0 auto;
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
 }
 body {
   height: 100%;
@@ -21,12 +24,11 @@ body {
   margin: 0 10;
   align-items: center;
   color: #ffffff; /* Set text color for better visibility */
-  flex-direction: column;
 }
 p {
   color: white;
   font-size: medium;
-  margin-top: 15px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 
