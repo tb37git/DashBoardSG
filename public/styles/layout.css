@@ -8,7 +8,6 @@
 }
 i {
   font-size: 1rem;
-  /* vertical-align: middle; */
   margin-right: 0.2rem;
 }
 .navbar-brand {
@@ -21,10 +20,8 @@ i {
   border-radius: 15px; /* Rounded corners */
   background-color: whitesmoke; /* Background color for the squares */
   opacity: 0.8;
-  /* display: inline; */
   min-height: 6rem;
   min-width: 8rem;
-  /* max-width: 12rem; */
 }
 .card strong {
   font-weight: bolder;

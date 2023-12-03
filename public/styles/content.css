@@ -1,19 +1,15 @@
 html {
-  height: 100%;
   font-size: 14px;
 }
 header {
-  /* flex: 0 0 auto; */
   background-color: blue;
   margin-bottom: 2rem;
 }
 body {
   background: url("https://wallpaperaccess.com/full/328442.jpg") center/cover fixed;
-  /* filter: brightness(50%); */
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -34,6 +30,20 @@ img.logo {
 }
 .formBlock {
   padding: 1rem;
+}
+.about {
+  margin: 0 5rem;
+  background-color: black;
+  padding: 2rem;
+  opacity: 0.6;
+  border-radius: 2rem;
+}
+.about h3 {
+  margin-top: 1rem;
+}
+.about ul {
+  text-align: left;
+  padding: 0 5rem;
 }
 .custom-control-label {
   padding: 0 1.5rem;
