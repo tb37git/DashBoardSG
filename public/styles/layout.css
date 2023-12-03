@@ -34,10 +34,10 @@ i {
   font-size: 2rem; /* Larger font size for values */
   color: blue;
 }
-.card .value .mediumFont {
+.card .value.mediumFont {
   font-size: 1.6rem;
 }
-.card .value .smallFont {
+.card .value.smallFont {
   font-size: 1.2rem;
 }
 .card .value .unit {
@@ -45,7 +45,7 @@ i {
 }
 .card .subcaption {
   font-size: 0.8rem; /* Smaller font size for units */
-  color: darkgray; /* Adjust color for units */
+  color: #777777; /* Adjust color for units */
   word-wrap: normal;
 }
 footer {

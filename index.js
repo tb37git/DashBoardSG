@@ -7,29 +7,14 @@ const port = process.env.PORT || 3000;
 // let userLatitude = 1.316576119456869;
 // let userLongitude = 103.83240698999445;
       
-function getNearest(latitude, longitude, locationMetaData) {
+function getNearest(latitude, longitude, locationMetaData, label) {
   const regions = locationMetaData;
   let nearest = regions[0];
-  let minDistance = calculateDistance(latitude, longitude, nearest.label_location.latitude, nearest.label_location.longitude);
+  let minDistance = calculateDistance(latitude, longitude, nearest[label].latitude, nearest[label].longitude);
 
   // Loop through each region and update nearest if a closer one is found
   for (let i = 1; i < regions.length; i++) {
-    const distance = calculateDistance(latitude, longitude, regions[i].label_location.latitude, regions[i].label_location.longitude);
-    if (distance < minDistance) {
-      minDistance = distance;
-      nearest = regions[i];
-    }
-  }
-  return nearest;
-}
-function getNearestStation(latitude, longitude, locationMetaData) {
-  const regions = locationMetaData;
-  let nearest = regions[0];
-  let minDistance = calculateDistance(latitude, longitude, nearest.location.latitude, nearest.location.longitude);
-
-  // Loop through each region and update nearest if a closer one is found
-  for (let i = 1; i < regions.length; i++) {
-    const distance = calculateDistance(latitude, longitude, regions[i].location.latitude, regions[i].location.longitude);
+    const distance = calculateDistance(latitude, longitude, regions[i][label].latitude, regions[i][label].longitude);
     if (distance < minDistance) {
       minDistance = distance;
       nearest = regions[i];
@@ -59,9 +44,9 @@ async function fetchPM25Data(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
-    const nearest = getNearest(userLatitude, userLongitude, data.region_metadata);
+    const nearest = getNearest(userLatitude, userLongitude, data.region_metadata, "label_location");
     result["value"] = data.items[0].readings.pm25_one_hourly[nearest.name];
-    result["location"] = nearest.name.toUpperCase();
+    result["location"] = nearest.name.slice(0,1).toUpperCase().concat("", nearest.name.slice(1));
     result["timeValid"] = data.items[0].update_timestamp.slice(11,16);
   } catch (error) {
     console.error('Error fetching PM25 data:', error);
@@ -76,9 +61,9 @@ async function fetchPsiData(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
-    const nearest = getNearest(userLatitude, userLongitude, data.region_metadata);
+    const nearest = getNearest(userLatitude, userLongitude, data.region_metadata, "label_location");
     result["value"] = data.items[0].readings.psi_twenty_four_hourly[nearest.name];
-    result["location"] = nearest.name.toUpperCase();
+    result["location"] = nearest.name.slice(0,1).toUpperCase().concat("", nearest.name.slice(1));
     result["timeValid"] = data.items[0].update_timestamp.slice(11,16);
   } catch (error) {
     console.error('Error fetching PSI data:', error);
@@ -109,7 +94,7 @@ async function fetchWeatherData(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
-    const nearest = getNearest(userLatitude, userLongitude, data.area_metadata);
+    const nearest = getNearest(userLatitude, userLongitude, data.area_metadata, "label_location");
     result["value"] = data.items[0].forecasts.find(area => area.area === nearest.name).forecast;
     result["location"] = nearest.name;
     result["timeValid"] = data.items[0].update_timestamp.slice(11,16);
@@ -126,7 +111,7 @@ async function fetchTempData(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
-    const nearest = getNearestStation(userLatitude, userLongitude, data.metadata.stations);
+    const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
     console.log(nearest);
     result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
     result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
@@ -157,6 +142,27 @@ app.post("/display", async (req, res) => {
   const userLatitude = req.body["userLatitude"];
   const userLongitude = req.body["userLongitude"];
   const result = {};
+  if (req.body["Weather"]) {
+    const data = await fetchWeatherData(userLatitude, userLongitude)
+    result["Weather"] = {
+      title: "Weather",
+      value: data.value,
+      location: data.location,
+      timeValid: data.timeValid,
+      unit: ""
+    }
+  };
+  if (req.body["Temp"]) {
+    const data = await fetchTempData(userLatitude, userLongitude)
+    console.log("See this", data);
+    result["Temp"] = {
+      title: "Temp",
+      value: data.value,
+      location: data.location,
+      timeValid: data.timeValid,
+      unit: "°C"
+    }
+  };
   if (req.body["PM25"]) {
     const data = await fetchPM25Data(userLatitude, userLongitude)
     result["PM25"] = {
@@ -187,33 +193,12 @@ app.post("/display", async (req, res) => {
       unit: ""
     }
   };
-  if (req.body["Weather"]) {
-    const data = await fetchWeatherData(userLatitude, userLongitude)
-    result["Weather"] = {
-      title: "Weather",
-      value: data.value,
-      location: data.location,
-      timeValid: data.timeValid,
-      unit: ""
-    }
-  };
-  if (req.body["Temp"]) {
-    const data = await fetchTempData(userLatitude, userLongitude)
-    console.log("See this", data);
-    result["Temp"] = {
-      title: "Temp",
-      value: data.value,
-      location: data.location,
-      timeValid: data.timeValid,
-      unit: "°C"
-    }
-  };
 
   console.log(result);
   res.render("display.ejs", { selectedDash: result });
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
 

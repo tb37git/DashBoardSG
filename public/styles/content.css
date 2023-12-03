@@ -28,31 +28,34 @@ img.logo {
   margin-top: 2rem;
   padding: 1rem;
 }
+.aboutBlock,
 .formBlock {
   background-color: whitesmoke;
   color: darkblue;
   width: fit-content;
   opacity: 0.9;
-  padding: 1rem;
+  margin: 0 5%;
+  padding: 3% 6%;
   border-radius: 2rem;
+}
+.formBlock .custom-checkbox {
+  margin: 0 auto;
+  width: fit-content;
+  text-align: left;
+}
+.custom-checkbox .custom-control-input {
+  margin-right: 1rem;
 }
 .custom-control-label {
   display: block;
-  padding: 0 1.5rem;
-  margin-bottom: 1rem; /* Adjust the margin as needed for spacing */
+  margin: 0.5rem 0; /* Adjust the margin as needed for spacing */
   font-size: 1.2rem;
 }
-.about {
-  margin: 0 5rem;
-  background-color: black;
-  padding: 2rem;
-  opacity: 0.6;
-  border-radius: 2rem;
-}
-.about h3 {
+.aboutBlock h3 {
   margin-top: 1rem;
+  text-align: left;
 }
-.about ul {
+.aboutBlock ul {
   text-align: left;
   padding: 0 1rem;
 }
