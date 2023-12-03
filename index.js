@@ -37,6 +37,77 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   return distance;
 }
 
+async function fetchWeatherData(userLatitude, userLongitude) {
+  const DateTime = new Date().toISOString().slice(0, 19)+"Z";
+  const API = `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date_time=${DateTime}`;
+  let result = {};
+  try {
+    const response = await fetch(API);
+    const data = await response.json();
+    const nearest = getNearest(userLatitude, userLongitude, data.area_metadata, "label_location");
+    result["value"] = data.items[0].forecasts.find(area => area.area === nearest.name).forecast;
+    result["location"] = nearest.name;
+    result["timeValid"] = data.items[0].update_timestamp.slice(11,16);
+  } catch (error) {
+    console.error('Error fetching Weather data:', error);
+  }
+  return result;
+}
+
+async function fetchTempData(userLatitude, userLongitude) {
+  const DateTime = new Date().toISOString().slice(0, 19)+"Z";
+  const API = `https://api.data.gov.sg/v1/environment/air-temperature?date_time=${DateTime}`;
+  let result = {};
+  try {
+    const response = await fetch(API);
+    const data = await response.json();
+    const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
+    console.log(nearest);
+    result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
+    result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
+    result["timeValid"] = data.items[0].timestamp.slice(11,16);
+ } catch (error) {
+    console.error('Error fetching Weather data:', error);
+  }
+  return result;
+}
+
+async function fetchHumidityData(userLatitude, userLongitude) {
+  const DateTime = new Date().toISOString().slice(0, 19)+"Z";
+  const API = `https://api.data.gov.sg/v1/environment/relative-humidity?date_time=${DateTime}`;
+  let result = {};
+  try {
+    const response = await fetch(API);
+    const data = await response.json();
+    const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
+    console.log(nearest);
+    result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
+    result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
+    result["timeValid"] = data.items[0].timestamp.slice(11,16);
+ } catch (error) {
+    console.error('Error fetching Weather data:', error);
+  }
+  return result;
+}
+
+async function fetchRainfallData(userLatitude, userLongitude) {
+  const DateTime = new Date().toISOString().slice(0, 19)+"Z";
+  const API = `https://api.data.gov.sg/v1/environment/rainfall?date_time=${DateTime}`;
+  let result = {};
+  try {
+    const response = await fetch(API);
+    const data = await response.json();
+    const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
+    console.log(nearest);
+    result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
+    result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
+    result["timeValid"] = data.items[0].timestamp.slice(11,16);
+ } catch (error) {
+    console.error('Error fetching Weather data:', error);
+  }
+  return result;
+}
+
 async function fetchPM25Data(userLatitude, userLongitude) {
   const DateTime = new Date().toISOString().slice(0, 19)+"Z";
   const API = `https://api.data.gov.sg/v1/environment/pm25?date_time=${DateTime}`;
@@ -87,41 +158,6 @@ async function fetchUviData(userLatitude, userLongitude) {
   return result;
 }
 
-async function fetchWeatherData(userLatitude, userLongitude) {
-  const DateTime = new Date().toISOString().slice(0, 19)+"Z";
-  const API = `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date_time=${DateTime}`;
-  let result = {};
-  try {
-    const response = await fetch(API);
-    const data = await response.json();
-    const nearest = getNearest(userLatitude, userLongitude, data.area_metadata, "label_location");
-    result["value"] = data.items[0].forecasts.find(area => area.area === nearest.name).forecast;
-    result["location"] = nearest.name;
-    result["timeValid"] = data.items[0].update_timestamp.slice(11,16);
-  } catch (error) {
-    console.error('Error fetching Weather data:', error);
-  }
-  return result;
-}
-
-async function fetchTempData(userLatitude, userLongitude) {
-  const DateTime = new Date().toISOString().slice(0, 19)+"Z";
-  const API = `https://api.data.gov.sg/v1/environment/air-temperature?date_time=${DateTime}`;
-  let result = {};
-  try {
-    const response = await fetch(API);
-    const data = await response.json();
-    const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
-    console.log(nearest);
-    result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
-    result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
-    result["timeValid"] = data.items[0].timestamp.slice(11,16);
- } catch (error) {
-    console.error('Error fetching Weather data:', error);
-  }
-  return result;
-}
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
@@ -154,13 +190,32 @@ app.post("/display", async (req, res) => {
   };
   if (req.body["Temp"]) {
     const data = await fetchTempData(userLatitude, userLongitude)
-    console.log("See this", data);
     result["Temp"] = {
       title: "Temp",
       value: data.value,
       location: data.location,
       timeValid: data.timeValid,
       unit: "°C"
+    }
+  };
+  if (req.body["Humidity"]) {
+    const data = await fetchHumidityData(userLatitude, userLongitude)
+    result["Humidity"] = {
+      title: "Humidity",
+      value: data.value,
+      location: data.location,
+      timeValid: data.timeValid,
+      unit: "%"
+    }
+  };
+  if (req.body["Rainfall"]) {
+    const data = await fetchRainfallData(userLatitude, userLongitude)
+    result["Rainfall"] = {
+      title: "Rainfall",
+      value: data.value,
+      location: data.location,
+      timeValid: data.timeValid,
+      unit: "mm"
     }
   };
   if (req.body["PM25"]) {
