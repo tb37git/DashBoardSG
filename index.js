@@ -22,6 +22,21 @@ function getNearest(latitude, longitude, locationMetaData) {
   }
   return nearest;
 }
+function getNearestStation(latitude, longitude, locationMetaData) {
+  const regions = locationMetaData;
+  let nearest = regions[0];
+  let minDistance = calculateDistance(latitude, longitude, nearest.location.latitude, nearest.location.longitude);
+
+  // Loop through each region and update nearest if a closer one is found
+  for (let i = 1; i < regions.length; i++) {
+    const distance = calculateDistance(latitude, longitude, regions[i].location.latitude, regions[i].location.longitude);
+    if (distance < minDistance) {
+      minDistance = distance;
+      nearest = regions[i];
+    }
+  }
+  return nearest;
+}
 
 // Function to calculate distance using Haversine formula
 function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -107,16 +122,19 @@ async function fetchWeatherData(userLatitude, userLongitude) {
 async function fetchTempData(userLatitude, userLongitude) {
   const DateTime = new Date().toISOString().slice(0, 19)+"Z";
   const API = `https://api.data.gov.sg/v1/environment/air-temperature?date_time=${DateTime}`;
-  let value;
+  let result = {};
   try {
     const response = await fetch(API);
     const data = await response.json();
-    const nearest = getNearest(userLatitude, userLongitude, data.area_metadata);
-    value = data.items[0].forecasts.find(area => area.area === nearest.name).forecast;
-  } catch (error) {
+    const nearest = getNearestStation(userLatitude, userLongitude, data.metadata.stations);
+    console.log(nearest);
+    result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
+    result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
+    result["timeValid"] = data.items[0].timestamp.slice(11,16);
+ } catch (error) {
     console.error('Error fetching Weather data:', error);
   }
-  return value;
+  return result;
 }
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -180,34 +198,17 @@ app.post("/display", async (req, res) => {
     }
   };
   if (req.body["Temp"]) {
-    const data = await fetchUviData(userLatitude, userLongitude)
+    const data = await fetchTempData(userLatitude, userLongitude)
+    console.log("See this", data);
     result["Temp"] = {
       title: "Temp",
       value: data.value,
       location: data.location,
       timeValid: data.timeValid,
-      unit: ""
+      unit: "°C"
     }
   };
 
-  // if (req.body["PSI"]) { result["PSI"] = {
-  //   title: "PSI",
-  //   value: await fetchPsiData(userLatitude, userLongitude),
-  //   unit: ""
-  //   }
-  // };
-  // if (req.body["UVI"]) { result["UVI"] = {
-  //   title: "UVI",
-  //   value: await fetchUviData(userLatitude, userLongitude),
-  //   unit: "Index"
-  //   }
-  // };
-  // if (req.body["Weather"]) { result["Weather"] = {
-  //   title: "Weather",
-  //   value: await fetchWeatherData(userLatitude, userLongitude),
-  //   unit: ""
-  //   }
-  // };
   console.log(result);
   res.render("display.ejs", { selectedDash: result });
 });

@@ -12,13 +12,19 @@
         <div class="card col-xs col-sm-4 col-md-2 col">
           <strong><%= selectedDash[key].title %></strong>
           <% if (selectedDash[key].value.length > 10) { %>
-            <div class="value" style="font-size: 1.2em;"><%= selectedDash[key].value %></div>
-          <% } else if (selectedDash[key].value.length > 5) { %>
-            <div class="value" style="font-size: 1.6em;"><%= selectedDash[key].value %></div>
-          <% } else { %>
-            <div class="value" style="font-size: 2em;"><%= selectedDash[key].value %></div>
+            <div class="value smallFont"><%= selectedDash[key].value %>
+              <span class="unit"><%= selectedDash[key].unit %></span>
+            </div>
+            <% } else if (selectedDash[key].value.length > 5) { %>
+            <div class="value mediumFont"><%= selectedDash[key].value %>
+              <span class="unit"><%= selectedDash[key].unit %></span>
+            </div>
+            <% } else { %>
+            <div class="value largeFont"><%= selectedDash[key].value %>
+              <span class="unit"><%= selectedDash[key].unit %></span>
+            </div>
           <% } %>
-          <div class="unit"><%= selectedDash[key].location %> <%= selectedDash[key].timeValid %></div>
+          <div class="subcaption"><%= selectedDash[key].location %> <%= selectedDash[key].timeValid %></div>
         </div>
       <% }) %>
     </div>

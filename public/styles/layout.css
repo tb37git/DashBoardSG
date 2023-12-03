@@ -22,6 +22,7 @@ i {
   opacity: 0.8;
   min-height: 6rem;
   min-width: 8rem;
+  word-wrap: normal;
 }
 .card strong {
   font-weight: bolder;
@@ -30,12 +31,22 @@ i {
   white-space: nowrap;
 }
 .card .value {
-  font-size: 2.5em; /* Larger font size for values */
+  font-size: 2rem; /* Larger font size for values */
   color: blue;
 }
-.card .unit {
-  font-size: 0.8em; /* Smaller font size for units */
+.card .value .mediumFont {
+  font-size: 1.6rem;
+}
+.card .value .smallFont {
+  font-size: 1.2rem;
+}
+.card .value .unit {
+  font-size: 0.8rem; /* Smaller font size for units */
+}
+.card .subcaption {
+  font-size: 0.8rem; /* Smaller font size for units */
   color: darkgray; /* Adjust color for units */
+  word-wrap: normal;
 }
 footer {
   min-height: 2rem;
