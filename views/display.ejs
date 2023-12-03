@@ -13,12 +13,12 @@
           <strong><%= selectedDash[key].title %></strong>
           <% if (selectedDash[key].value.length > 10) { %>
             <div class="value" style="font-size: 1.2em;"><%= selectedDash[key].value %></div>
-          <% } else if (selectedDash[key].value.length > 6) { %>
+          <% } else if (selectedDash[key].value.length > 5) { %>
             <div class="value" style="font-size: 1.6em;"><%= selectedDash[key].value %></div>
           <% } else { %>
             <div class="value" style="font-size: 2em;"><%= selectedDash[key].value %></div>
           <% } %>
-          <div class="unit"><%= selectedDash[key].unit %></div>
+          <div class="unit"><%= selectedDash[key].location %> <%= selectedDash[key].timeValid %></div>
         </div>
       <% }) %>
     </div>
