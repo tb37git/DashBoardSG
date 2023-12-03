@@ -29,7 +29,18 @@ img.logo {
   padding: 1rem;
 }
 .formBlock {
+  background-color: whitesmoke;
+  color: darkblue;
+  width: fit-content;
+  opacity: 0.9;
   padding: 1rem;
+  border-radius: 2rem;
+}
+.custom-control-label {
+  display: block;
+  padding: 0 1.5rem;
+  margin-bottom: 1rem; /* Adjust the margin as needed for spacing */
+  font-size: 1.2rem;
 }
 .about {
   margin: 0 5rem;
@@ -44,9 +55,6 @@ img.logo {
 .about ul {
   text-align: left;
   padding: 0 1rem;
-}
-.custom-control-label {
-  padding: 0 1.5rem;
 }
 .profile {
   height: 200px;
