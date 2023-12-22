@@ -86,8 +86,8 @@
         function(position) {
           const userLatitude = position.coords.latitude;
           const userLongitude = position.coords.longitude;
-          document.querySelector("#userLatitude").value = userLatitude;
-          document.querySelector("#userLongitude").value = userLongitude;
+          document.getElementById("userLatitude").value = userLatitude;
+          document.getElementById("userLongitude").value = userLongitude;
           document.getElementById("browserWarning").innerHTML = "";
           document.getElementById("submitBtn").disabled = false;
         },
