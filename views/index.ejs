@@ -12,32 +12,32 @@
       
     <form id="myForm" action="/display" method="post">
       <div class="custom-control custom-checkbox">
-        <label class="custom-control-label" for="dash1">
-          <input type="checkbox" class="custom-control-input" id="dash1" name="Weather" value="selected" checked>Weather
+        <label class="custom-control-label" for="weatherId">
+          <input type="checkbox" class="custom-control-input" id="weatherId" name="Weather" value="selected" checked>Weather
         </label>
 
-        <label class="custom-control-label" for="dash2">
-          <input type="checkbox" class="custom-control-input" id="dash2" name="Temp" value="selected" checked>Temperature
+        <label class="custom-control-label" for="tempId">
+          <input type="checkbox" class="custom-control-input" id="tempId" name="Temp" value="selected" checked>Temperature
         </label>
 
-        <label class="custom-control-label" for="dash3">
-          <input type="checkbox" class="custom-control-input" id="dash3" name="Humidity" value="selected" checked>Humidity
+        <label class="custom-control-label" for="humidityId">
+          <input type="checkbox" class="custom-control-input" id="humidityId" name="Humidity" value="selected" checked>Humidity
         </label>
 
-        <label class="custom-control-label" for="dash4">
-          <input type="checkbox" class="custom-control-input" id="dash4" name="Rainfall" value="selected">Rainfall
+        <label class="custom-control-label" for="rainfallId">
+          <input type="checkbox" class="custom-control-input" id="rainfallId" name="Rainfall" value="selected">Rainfall
         </label>
 
-        <label class="custom-control-label" for="dash5">
-          <input type="checkbox" class="custom-control-input" id="dash5" name="PM25" value= "selected">PM2.5
+        <label class="custom-control-label" for="Pm25Id">
+          <input type="checkbox" class="custom-control-input" id="Pm25Id" name="PM25" value= "selected">PM2.5
         </label>
 
-        <label class="custom-control-label" for="dash6">
-          <input type="checkbox" class="custom-control-input" id="dash6" name="PSI" value="selected">PSI
+        <label class="custom-control-label" for="psiId">
+          <input type="checkbox" class="custom-control-input" id="psiId" name="PSI" value="selected">PSI
         </label>
 
-        <label class="custom-control-label" for="dash7">
-          <input type="checkbox" class="custom-control-input" id="dash7" name="UVI" value="selected">UVI
+        <label class="custom-control-label" for="uviId">
+          <input type="checkbox" class="custom-control-input" id="uviId" name="UVI" value="selected">UVI
         </label>
 
       </div>
@@ -109,6 +109,20 @@
     }
   // }
 
+  if (typeof(Storage) !== "undefined") {
+  // Code for localStorage/sessionStorage.
+    const dashBoard = ["weatherId", "tempId", "humidityId", "rainfallId", "pm25Id", "psiId", "uviId"];
+    // Check if each item in localStorage.dashBoard is null
+    const allNull = dashBoard.every(item => localStorage.getItem(item) === null);
+    console.log(allNull);
+    if (allNull) {
+      dashBoard.forEach(item => localStorage.setItem(item, true));
+    } else {
+      dashBoard.forEach(item => document.getElementById(item).checked = localStorage.getItem(item);
+    }
+  } else {
+  // Sorry! No Web Storage support..
+  }
 </script>
 
 
