@@ -116,9 +116,9 @@
     const allNull = dashBoard.every(item => localStorage.getItem(item) === null);
     console.log(allNull);
     if (allNull) {
-      dashBoard.forEach(item => localStorage.setItem(item, true));
+      dashBoard.forEach(item => localStorage.setItem(item, JSON.stringify(true)));
     } else {
-      dashBoard.forEach(item => document.getElementById(item).checked = localStorage.getItem(item);
+      dashBoard.forEach(item => document.getElementById(item).checked = JSON.parse(localStorage.getItem(item)));
     }
   } else {
   // Sorry! No Web Storage support..
