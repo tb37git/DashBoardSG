@@ -1,6 +1,21 @@
 <%- include("partials/header.ejs") %>
 
 <body>
+  <script>
+    function storeSelection(selectedDash) {
+      if (typeof(Storage) !== "undefined") {
+        // Code for localStorage/sessionStorage.
+        localStorage.setItem("mySelection", JSON.stringify(selectedDash));
+        console.log(selectedDash);
+      } else {
+        // Sorry! No Web Storage support..
+        console.log("No Web Storage!");
+      }
+    }
+    storeSelection(<%- JSON.stringify(selectedDash) %>);
+
+  </script>
+
   <div class="titleBlock">
     <img class="logo" src="https://cdn.onlinewebfonts.com/svg/img_81173.svg" alt="Dashboard icon">
     <h1>DashBoardSG</h1>
@@ -9,7 +24,7 @@
   <div class="container text-center">
     <div class="row align-items-center">
       <% Object.keys(selectedDash).forEach(key => { %>
-        <div class="card col-xs col-sm-4 col-md-2 col">
+        <div class="card col">
           <strong><%= selectedDash[key].title %></strong>
           <% if (selectedDash[key].value.length > 10) { %>
             <div class="value smallFont"><%= selectedDash[key].value %>
@@ -29,6 +44,7 @@
       <% }) %>
     </div>
   </div>
+
 </body>
 
 <%- include("partials/footer.ejs") %>
