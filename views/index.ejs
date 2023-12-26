@@ -12,32 +12,32 @@
       
     <form id="myForm" action="/display" method="post">
       <div class="custom-control custom-checkbox">
-        <label class="custom-control-label" for="weatherId">
-          <input type="checkbox" class="custom-control-input" id="weatherId" name="Weather" value="selected" checked>Weather
+        <label class="custom-control-label" for="Weather">
+          <input type="checkbox" class="custom-control-input" id="Weather" name="Weather" value="selected">Weather
         </label>
 
-        <label class="custom-control-label" for="tempId">
-          <input type="checkbox" class="custom-control-input" id="tempId" name="Temp" value="selected" checked>Temperature
+        <label class="custom-control-label" for="Temp">
+          <input type="checkbox" class="custom-control-input" id="Temp" name="Temp" value="selected">Temperature
         </label>
 
-        <label class="custom-control-label" for="humidityId">
-          <input type="checkbox" class="custom-control-input" id="humidityId" name="Humidity" value="selected" checked>Humidity
+        <label class="custom-control-label" for="Humidity">
+          <input type="checkbox" class="custom-control-input" id="Humidity" name="Humidity" value="selected">Humidity
         </label>
 
-        <label class="custom-control-label" for="rainfallId">
-          <input type="checkbox" class="custom-control-input" id="rainfallId" name="Rainfall" value="selected">Rainfall
+        <label class="custom-control-label" for="Rainfall">
+          <input type="checkbox" class="custom-control-input" id="Rainfall" name="Rainfall" value="selected">Rainfall
         </label>
 
-        <label class="custom-control-label" for="pm25Id">
-          <input type="checkbox" class="custom-control-input" id="pm25Id" name="PM25" value= "selected">PM2.5
+        <label class="custom-control-label" for="PM25">
+          <input type="checkbox" class="custom-control-input" id="PM25" name="PM25" value= "selected">PM2.5
         </label>
 
-        <label class="custom-control-label" for="psiId">
-          <input type="checkbox" class="custom-control-input" id="psiId" name="PSI" value="selected">PSI
+        <label class="custom-control-label" for="PSI">
+          <input type="checkbox" class="custom-control-input" id="PSI" name="PSI" value="selected">PSI
         </label>
 
-        <label class="custom-control-label" for="uviId">
-          <input type="checkbox" class="custom-control-input" id="uviId" name="UVI" value="selected">UVI
+        <label class="custom-control-label" for="UVI">
+          <input type="checkbox" class="custom-control-input" id="UVI" name="UVI" value="selected">UVI
         </label>
 
       </div>
@@ -90,18 +90,19 @@
           document.getElementById("userLongitude").value = userLongitude;
           document.getElementById("browserWarning").innerHTML = "";
           document.getElementById("submitBtn").disabled = false;
+          console.log("GPS is enabled");
         },
         function(error) {
-            if (error.code === error.PERMISSION_DENIED) {
-              // Handle permission denied
-              document.getElementById("browserWarning").innerHTML = "Please enable location on this browser";
-              document.getElementById("submitBtn").disabled = true;
-              console.log("Location permission denied by user.");
-            } else {
-              // Handle other errors
-              console.log("Geolocation is not supported by this browser.");
-              console.error(`Error getting location: ${error.message}`);
-            }
+          if (error.code === error.PERMISSION_DENIED) {
+            // Handle permission denied
+            document.getElementById("browserWarning").innerHTML = "Please enable location on this browser";
+            document.getElementById("submitBtn").disabled = true;
+            console.log("Location permission denied by user.");
+          } else {
+            // Handle other errors
+            console.log("Geolocation is not supported by this browser.");
+            console.error(`Error getting location: ${error.message}`);
+          }
         }
       );
     } else {
@@ -110,19 +111,23 @@
   // }
 
   if (typeof(Storage) !== "undefined") {
-  // Code for localStorage/sessionStorage.
-    const dashBoard = ["weatherId", "tempId", "humidityId", "rainfallId", "pm25Id", "psiId", "uviId"];
+    // Code for localStorage/sessionStorage.
+    const dashBoard = ["Weather", "Temp", "Humidity", "Rainfall", "PM25", "PSI", "UVI"];
+    const mySelection = JSON.parse(localStorage.getItem("mySelection"));
     // Check if each item in localStorage.dashBoard is null
-    const allNull = dashBoard.every(item => localStorage.getItem(item) === null);
-    console.log(allNull);
-    if (allNull) {
-      dashBoard.forEach(item => localStorage.setItem(item, JSON.stringify(true)));
-    } else {
-      dashBoard.forEach(item => document.getElementById(item).checked = JSON.parse(localStorage.getItem(item)));
+    for (const item of dashBoard) {
+      if (mySelection[item]) {
+        document.getElementById(item).checked = true;
+      }
+      else {
+        document.getElementById(item).checked = false;
+      }
     }
   } else {
-  // Sorry! No Web Storage support..
+    // Sorry! No Web Storage support..
+    console.log("No Web Storage!");
   }
+
 </script>
 
 

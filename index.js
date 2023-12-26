@@ -48,6 +48,7 @@ async function fetchWeatherData(userLatitude, userLongitude) {
     result["value"] = data.items[0].forecasts.find(area => area.area === nearest.name).forecast;
     result["location"] = nearest.name;
     result["timeValid"] = data.items[0].update_timestamp.slice(11,16);
+    result["unit"] = "";
   } catch (error) {
     console.error('Error fetching Weather data:', error);
   }
@@ -62,10 +63,10 @@ async function fetchTempData(userLatitude, userLongitude) {
     const response = await fetch(API);
     const data = await response.json();
     const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
-    console.log(nearest);
     result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
     result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
     result["timeValid"] = data.items[0].timestamp.slice(11,16);
+    result["unit"] = "°C";
  } catch (error) {
     console.error('Error fetching Weather data:', error);
   }
@@ -80,10 +81,10 @@ async function fetchHumidityData(userLatitude, userLongitude) {
     const response = await fetch(API);
     const data = await response.json();
     const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
-    console.log(nearest);
     result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
     result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
     result["timeValid"] = data.items[0].timestamp.slice(11,16);
+    result["unit"] = "%";
  } catch (error) {
     console.error('Error fetching Weather data:', error);
   }
@@ -98,10 +99,10 @@ async function fetchRainfallData(userLatitude, userLongitude) {
     const response = await fetch(API);
     const data = await response.json();
     const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
-    console.log(nearest);
     result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
     result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
     result["timeValid"] = data.items[0].timestamp.slice(11,16);
+    result["unit"] = "mm";
  } catch (error) {
     console.error('Error fetching Weather data:', error);
   }
@@ -119,6 +120,7 @@ async function fetchPM25Data(userLatitude, userLongitude) {
     result["value"] = data.items[0].readings.pm25_one_hourly[nearest.name];
     result["location"] = nearest.name.slice(0,1).toUpperCase().concat("", nearest.name.slice(1));
     result["timeValid"] = data.items[0].update_timestamp.slice(11,16);
+    result["unit"] = "µg/m3";
   } catch (error) {
     console.error('Error fetching PM25 data:', error);
   }
@@ -136,6 +138,7 @@ async function fetchPsiData(userLatitude, userLongitude) {
     result["value"] = data.items[0].readings.psi_twenty_four_hourly[nearest.name];
     result["location"] = nearest.name.slice(0,1).toUpperCase().concat("", nearest.name.slice(1));
     result["timeValid"] = data.items[0].update_timestamp.slice(11,16);
+    result["unit"] = "";
   } catch (error) {
     console.error('Error fetching PSI data:', error);
   }
@@ -152,6 +155,7 @@ async function fetchUviData(userLatitude, userLongitude) {
     result["value"] = data.items[0].index[0].value;
     result["location"] = null;
     result["timeValid"] = data.items[0].update_timestamp.slice(11,16);
+    result["unit"] = "";
   } catch (error) {
     console.error('Error fetching UVI data:', error);
   }
@@ -179,74 +183,74 @@ app.post("/display", async (req, res) => {
   const userLongitude = req.body["userLongitude"];
   const result = {};
   if (req.body["Weather"]) {
-    const data = await fetchWeatherData(userLatitude, userLongitude)
+    const data = await fetchWeatherData(userLatitude, userLongitude);
     result["Weather"] = {
       title: "Weather",
       value: data.value,
       location: data.location,
       timeValid: data.timeValid,
-      unit: ""
-    }
+      unit: data.unit
+    };
   };
   if (req.body["Temp"]) {
-    const data = await fetchTempData(userLatitude, userLongitude)
+    const data = await fetchTempData(userLatitude, userLongitude);
     result["Temp"] = {
       title: "Temp",
       value: data.value,
       location: data.location,
       timeValid: data.timeValid,
-      unit: "°C"
-    }
+      unit: data.unit
+    };
   };
   if (req.body["Humidity"]) {
-    const data = await fetchHumidityData(userLatitude, userLongitude)
+    const data = await fetchHumidityData(userLatitude, userLongitude);
     result["Humidity"] = {
       title: "Humidity",
       value: data.value,
       location: data.location,
       timeValid: data.timeValid,
-      unit: "%"
-    }
+      unit: data.unit
+    };
   };
   if (req.body["Rainfall"]) {
-    const data = await fetchRainfallData(userLatitude, userLongitude)
+    const data = await fetchRainfallData(userLatitude, userLongitude);
     result["Rainfall"] = {
       title: "Rainfall",
       value: data.value,
       location: data.location,
       timeValid: data.timeValid,
-      unit: "mm"
-    }
+      unit: data.unit
+    };
   };
   if (req.body["PM25"]) {
-    const data = await fetchPM25Data(userLatitude, userLongitude)
+    const data = await fetchPM25Data(userLatitude, userLongitude);
     result["PM25"] = {
       title: "PM2.5",
       value: data.value,
       location: data.location,
       timeValid: data.timeValid,
-      unit: "µg/m3"
-    }
+      unit: data.unit
+    };
   };
   if (req.body["PSI"]) {
-    const data = await fetchPsiData(userLatitude, userLongitude)
+    const data = await fetchPsiData(userLatitude, userLongitude);
     result["PSI"] = {
       title: "PSI",
       value: data.value,
       location: data.location,
       timeValid: data.timeValid,
-      unit: ""
-    }
+      unit: data.unit
+    };
   };
   if (req.body["UVI"]) {
-    const data = await fetchUviData(userLatitude, userLongitude)
+    const data = await fetchUviData(userLatitude, userLongitude);
     result["UVI"] = {
       title: "UVI",
       value: data.value,
       location: data.location,
       timeValid: data.timeValid,
-      unit: ""
-    }
+      unit: data.unit
+    };
   };
 
   console.log(result);
