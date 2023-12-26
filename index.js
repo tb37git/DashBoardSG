@@ -181,7 +181,8 @@ app.post("/display", async (req, res) => {
   console.log(req.body);
   const userLatitude = req.body["userLatitude"];
   const userLongitude = req.body["userLongitude"];
-  const result = {};
+  let result = {};
+  
   if (req.body["Weather"]) {
     const data = await fetchWeatherData(userLatitude, userLongitude);
     result["Weather"] = {

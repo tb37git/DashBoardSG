@@ -43,72 +43,43 @@
       </div>
       <br>
       <h3 id="browserWarning"></h3>
-      <!-- <button class="btn btn-primary btn-lg" type="submit" id="locationButton" onmouseover="checkLocationPermission()"> -->
       <button class="btn btn-primary btn-lg" id="submitBtn" type="submit"><strong>Display</strong></button>
       <input type="hidden" id="userLatitude" name="userLatitude" value="latitude">
       <input type="hidden" id="userLongitude" name="userLongitude" value="longitude">
     </form>
   </div>
+  <div><br><br><br></div>
 </body>
 
 <script>
   let userLatitude, userLongitude;
-  // const x = document.getElementById("browserWarning");
-
-  // if (navigator.geolocation) {
-  //   navigator.geolocation.getCurrentPosition(function(position) {
-  //     userLatitude = position.coords.latitude;
-  //     userLongitude = position.coords.longitude;
-  //     document.querySelector("#userLatitude").value = userLatitude;
-  //     document.querySelector("#userLongitude").value = userLongitude;
-  //   });
-  //   } else {
-  //     console.log("Geolocation is not supported by this browser.");
-  //     document.querySelector("#browserWarning").innerHTML = "Please enable location on this browser";
-  //   }
-
-  // if ("geolocation" in navigator) {
-  //   navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-  //     const browserWarning = document.getElementById('browserWarning');
-  //     if (result.state === 'denied') {
-  //         // Location denied, show warning
-  //         browserWarning.innerText = "Please enable location on this browser";
-  //     } else {
-  //         // Location allowed, hide warning
-  //         browserWarning.innerText = "Thank you for enabling location on browser";
-  //     }
-  //   });
-  // }
-
-  // function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function(position) {
-          const userLatitude = position.coords.latitude;
-          const userLongitude = position.coords.longitude;
-          document.getElementById("userLatitude").value = userLatitude;
-          document.getElementById("userLongitude").value = userLongitude;
-          document.getElementById("browserWarning").innerHTML = "";
-          document.getElementById("submitBtn").disabled = false;
-          console.log("GPS is enabled");
-        },
-        function(error) {
-          if (error.code === error.PERMISSION_DENIED) {
-            // Handle permission denied
-            document.getElementById("browserWarning").innerHTML = "Please enable location on this browser";
-            document.getElementById("submitBtn").disabled = true;
-            console.log("Location permission denied by user.");
-          } else {
-            // Handle other errors
-            console.log("Geolocation is not supported by this browser.");
-            console.error(`Error getting location: ${error.message}`);
-          }
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        const userLatitude = position.coords.latitude;
+        const userLongitude = position.coords.longitude;
+        document.getElementById("userLatitude").value = userLatitude;
+        document.getElementById("userLongitude").value = userLongitude;
+        document.getElementById("browserWarning").innerHTML = "";
+        document.getElementById("submitBtn").disabled = false;
+        console.log("GPS is enabled");
+      },
+      function(error) {
+        if (error.code === error.PERMISSION_DENIED) {
+          // Handle permission denied
+          document.getElementById("browserWarning").innerHTML = "Please enable location on this browser";
+          document.getElementById("submitBtn").disabled = true;
+          console.log("Location permission denied by user.");
+        } else {
+          // Handle other errors
+          console.log("Geolocation is not supported by this browser.");
+          console.error(`Error getting location: ${error.message}`);
         }
-      );
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-  // }
+      }
+    );
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  };
 
   if (typeof(Storage) !== "undefined") {
     // Code for localStorage/sessionStorage.
@@ -125,8 +96,8 @@
     }
   } else {
     // Sorry! No Web Storage support..
-    console.log("No Web Storage!");
-  }
+    console.log("Web Storage not enabled for this browser");
+  };
 
 </script>
 
