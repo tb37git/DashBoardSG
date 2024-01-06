@@ -26,20 +26,24 @@
       <% Object.keys(selectedDash).forEach(key => { %>
         <div class="card col">
           <strong><%= selectedDash[key].title %></strong>
-          <% if (selectedDash[key].value.length > 10) { %>
-            <div class="value smallFont"><%= selectedDash[key].value %>
-              <span class="unit"><%= selectedDash[key].unit %></span>
-            </div>
-          <% } else if (selectedDash[key].value.length > 5) { %>
-            <div class="value mediumFont"><%= selectedDash[key].value %>
-              <span class="unit"><%= selectedDash[key].unit %></span>
-            </div>
+          <% if (selectedDash[key].value != null) { %>
+            <% if (selectedDash[key].value.length > 10) { %>
+              <div class="value smallFont"><%= selectedDash[key].value %>
+                <span class="unit"><%= selectedDash[key].unit %></span>
+              </div>
+            <% } else if (selectedDash[key].value.length > 5) { %>
+              <div class="value mediumFont"><%= selectedDash[key].value %>
+                <span class="unit"><%= selectedDash[key].unit %></span>
+              </div>
+            <% } else { %>
+              <div class="value largeFont"><%= selectedDash[key].value %>
+                <span class="unit"><%= selectedDash[key].unit %></span>
+              </div>
+            <% } %>
+            <div class="subcaption"><%= selectedDash[key].location %> <%= selectedDash[key].timeValid %></div>
           <% } else { %>
-            <div class="value largeFont"><%= selectedDash[key].value %>
-              <span class="unit"><%= selectedDash[key].unit %></span>
-            </div>
+            <div class="value smallFont">Not available</div>
           <% } %>
-          <div class="subcaption"><%= selectedDash[key].location %> <%= selectedDash[key].timeValid %></div>
         </div>
       <% }) %>
       <div><br><br><br></div>
