@@ -44,13 +44,16 @@ async function fetchWeatherData(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
+    result["title"] = "Weather";
     const nearest = getNearest(userLatitude, userLongitude, data.area_metadata, "label_location");
     result["value"] = data.items[0].forecasts.find(area => area.area === nearest.name).forecast;
     result["location"] = nearest.name;
     result["timeValid"] = data.items[0].update_timestamp.slice(11,16);
-    result["unit"] = "";
+    result["unit"] = "";  
   } catch (error) {
     console.error('Error fetching Weather data:', error);
+    // result["title"] = "Weather";
+    result["value"] = "Not available";
   }
   return result;
 }
@@ -62,6 +65,7 @@ async function fetchTempData(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
+    result["title"] = "Temp";
     const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
     result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
     result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
@@ -69,6 +73,7 @@ async function fetchTempData(userLatitude, userLongitude) {
     result["unit"] = "°C";
  } catch (error) {
     console.error('Error fetching Weather data:', error);
+    result["value"] = "Not available";
   }
   return result;
 }
@@ -80,6 +85,7 @@ async function fetchHumidityData(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
+    result["title"] = "Humidity";
     const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
     result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
     result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
@@ -87,6 +93,7 @@ async function fetchHumidityData(userLatitude, userLongitude) {
     result["unit"] = "%";
  } catch (error) {
     console.error('Error fetching Weather data:', error);
+    result["value"] = "Not available";
   }
   return result;
 }
@@ -98,6 +105,7 @@ async function fetchRainfallData(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
+    result["title"] = "Rainfall";
     const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
     result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
     result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
@@ -105,6 +113,7 @@ async function fetchRainfallData(userLatitude, userLongitude) {
     result["unit"] = "mm";
  } catch (error) {
     console.error('Error fetching Weather data:', error);
+    result["value"] = "Not available";
   }
   return result;
 }
@@ -116,6 +125,7 @@ async function fetchPM25Data(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
+    result["title"] = "PM2.5";
     const nearest = getNearest(userLatitude, userLongitude, data.region_metadata, "label_location");
     result["value"] = data.items[0].readings.pm25_one_hourly[nearest.name];
     result["location"] = nearest.name.slice(0,1).toUpperCase().concat("", nearest.name.slice(1));
@@ -123,6 +133,7 @@ async function fetchPM25Data(userLatitude, userLongitude) {
     result["unit"] = "µg/m3";
   } catch (error) {
     console.error('Error fetching PM25 data:', error);
+    result["value"] = "Not available";
   }
   return result;
 }
@@ -134,6 +145,7 @@ async function fetchPsiData(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
+    result["title"] = "PSI";
     const nearest = getNearest(userLatitude, userLongitude, data.region_metadata, "label_location");
     result["value"] = data.items[0].readings.psi_twenty_four_hourly[nearest.name];
     result["location"] = nearest.name.slice(0,1).toUpperCase().concat("", nearest.name.slice(1));
@@ -141,6 +153,7 @@ async function fetchPsiData(userLatitude, userLongitude) {
     result["unit"] = "";
   } catch (error) {
     console.error('Error fetching PSI data:', error);
+    result["value"] = "Not available";
   }
   return result;
 }
@@ -152,12 +165,14 @@ async function fetchUviData(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
+    result["title"] = "UVI";
     result["value"] = data.items[0].index[0].value;
     result["location"] = null;
     result["timeValid"] = data.items[0].update_timestamp.slice(11,16);
     result["unit"] = "";
   } catch (error) {
     console.error('Error fetching UVI data:', error);
+    result["value"] = "Not available";
   }
   return result;
 }
@@ -184,74 +199,25 @@ app.post("/display", async (req, res) => {
   let result = {};
   
   if (req.body["Weather"]) {
-    const data = await fetchWeatherData(userLatitude, userLongitude);
-    result["Weather"] = {
-      title: "Weather",
-      value: data.value,
-      location: data.location,
-      timeValid: data.timeValid,
-      unit: data.unit
-    };
+    result["Weather"] = await fetchWeatherData(userLatitude, userLongitude);
   };
   if (req.body["Temp"]) {
-    const data = await fetchTempData(userLatitude, userLongitude);
-    result["Temp"] = {
-      title: "Temp",
-      value: data.value,
-      location: data.location,
-      timeValid: data.timeValid,
-      unit: data.unit
-    };
+    result["Temp"] = await fetchTempData(userLatitude, userLongitude);
   };
   if (req.body["Humidity"]) {
-    const data = await fetchHumidityData(userLatitude, userLongitude);
-    result["Humidity"] = {
-      title: "Humidity",
-      value: data.value,
-      location: data.location,
-      timeValid: data.timeValid,
-      unit: data.unit
-    };
+    result["Humidity"] = await fetchHumidityData(userLatitude, userLongitude);
   };
   if (req.body["Rainfall"]) {
-    const data = await fetchRainfallData(userLatitude, userLongitude);
-    result["Rainfall"] = {
-      title: "Rainfall",
-      value: data.value,
-      location: data.location,
-      timeValid: data.timeValid,
-      unit: data.unit
-    };
+    result["Rainfall"] = await fetchRainfallData(userLatitude, userLongitude);
   };
   if (req.body["PM25"]) {
-    const data = await fetchPM25Data(userLatitude, userLongitude);
-    result["PM25"] = {
-      title: "PM2.5",
-      value: data.value,
-      location: data.location,
-      timeValid: data.timeValid,
-      unit: data.unit
-    };
+    result["PM25"] = await fetchPM25Data(userLatitude, userLongitude);
   };
   if (req.body["PSI"]) {
-    const data = await fetchPsiData(userLatitude, userLongitude);
-    result["PSI"] = {
-      title: "PSI",
-      value: data.value,
-      location: data.location,
-      timeValid: data.timeValid,
-      unit: data.unit
-    };
+    result["PSI"] = await fetchPsiData(userLatitude, userLongitude);
   };
   if (req.body["UVI"]) {
-    const data = await fetchUviData(userLatitude, userLongitude);
-    result["UVI"] = {
-      title: "UVI",
-      value: data.value,
-      location: data.location,
-      timeValid: data.timeValid,
-      unit: data.unit
-    };
+    result["UVI"] = await fetchUviData(userLatitude, userLongitude);
   };
 
   console.log(result);
