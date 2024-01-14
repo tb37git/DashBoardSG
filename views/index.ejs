@@ -12,16 +12,16 @@
       
     <form id="myForm" action="/display" method="post">
       <div class="custom-control custom-checkbox">
-        <label class="custom-control-label" for="Weather">
-          <input type="checkbox" class="custom-control-input" id="Weather" name="Weather" value="selected">Weather
+        <label class="custom-control-label" for="Weather Now">
+          <input type="checkbox" class="custom-control-input" id="Weather Now" name="Weather" value="selected">Weather
         </label>
 
-        <label class="custom-control-label" for="Temp">
-          <input type="checkbox" class="custom-control-input" id="Temp" name="Temp" value="selected">Temperature
+        <label class="custom-control-label" for="Temp Now">
+          <input type="checkbox" class="custom-control-input" id="Temp Now" name="Temp" value="selected">Temperature
         </label>
 
-        <label class="custom-control-label" for="Humidity">
-          <input type="checkbox" class="custom-control-input" id="Humidity" name="Humidity" value="selected">Humidity
+        <label class="custom-control-label" for="Humidity Now">
+          <input type="checkbox" class="custom-control-input" id="Humidity Now" name="Humidity" value="selected">Humidity
         </label>
 
         <label class="custom-control-label" for="Rainfall">
@@ -83,7 +83,7 @@
 
   if (typeof(Storage) !== "undefined") {
     // Code for localStorage/sessionStorage.
-    const dashBoard = ["Weather", "Temp", "Humidity", "Rainfall", "PM25", "PSI", "UVI"];
+    const dashBoard = ["Weather Now", "Temp Now", "Humidity Now", "Rainfall", "PM25", "PSI", "UVI"];
     const mySelection = JSON.parse(localStorage.getItem("mySelection"));
     // Check if each item in localStorage.dashBoard is null
     for (const item of dashBoard) {

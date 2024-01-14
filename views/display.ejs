@@ -27,7 +27,11 @@
         <div class="card col">
           <strong><%= selectedDash[key].title %></strong>
           <% if (selectedDash[key].value != null) { %>
-            <% if (selectedDash[key].value.length > 10) { %>
+            <% if (selectedDash[key].value.length > 16) { %>
+              <div class="value xsFont"><%= selectedDash[key].value %>
+                <span class="unit"><%= selectedDash[key].unit %></span>
+              </div>
+            <% } else if (selectedDash[key].value.length > 10) { %>
               <div class="value smallFont"><%= selectedDash[key].value %>
                 <span class="unit"><%= selectedDash[key].unit %></span>
               </div>

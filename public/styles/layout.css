@@ -21,14 +21,13 @@ i {
   background-color: whitesmoke; /* Background color for the squares */
   opacity: 0.8;
   min-height: 6rem;
-  min-width: 8rem;
+  min-width: 12rem;
   word-wrap: normal;
 }
 .card strong {
   font-weight: bolder;
   font-size: 1.4rem; /* Large font size for title */
   color: darkblue;
-  white-space: nowrap;
 }
 .card .value {
   font-size: 2rem; /* Larger font size for values */
@@ -39,6 +38,9 @@ i {
 }
 .card .value.smallFont {
   font-size: 1.2rem;
+}
+.card .value.xsFont {
+  font-size: 1rem;
 }
 .card .value .unit {
   font-size: 0.8rem; /* Smaller font size for units */
