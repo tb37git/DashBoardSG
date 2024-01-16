@@ -44,7 +44,7 @@ async function fetchWeatherData(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
-    result["title"] = "Weather Now";
+    result["title"] = "Weather: Now";
     const nearest = getNearest(userLatitude, userLongitude, data.area_metadata, "label_location");
     result["value"] = data.items[0].forecasts.find(area => area.area === nearest.name).forecast;
     result["location"] = nearest.name;
@@ -64,7 +64,7 @@ async function fetchWeatherToday(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
-    result["title"] = "Weather Today";
+    result["title"] = "Weather: Today";
     result["value"] = data.items[0].general.forecast;
     result["location"] = null;
     result["timeValid"] = null;
@@ -103,7 +103,7 @@ async function fetchTempData(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
-    result["title"] = "Temp";
+    result["title"] = "Temp: Now";
     const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
     result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
     result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
@@ -143,7 +143,7 @@ async function fetchHumidityData(userLatitude, userLongitude) {
   try {
     const response = await fetch(API);
     const data = await response.json();
-    result["title"] = "Humidity";
+    result["title"] = "Humidity: Now";
     const nearest = getNearest(userLatitude, userLongitude, data.metadata.stations, "location");
     result["value"] = data.items[0].readings.find(item => item.station_id === nearest.id).value;
     result["location"] = data.metadata.stations.find(item => item.id === nearest.id).name;
